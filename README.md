@@ -16,6 +16,54 @@
 
 This library will help you improve your code, faster and easier.
 
+#### Components
+
+**`ViewVisibleAnimated`**
+```javascript
+<ViewVisibleAnimated >
+    <Text>Hello</Text>
+</ViewVisibleAnimated> 
+```
+- `Props`
+
+```typescript
+type ViewVisibleAnimatedProps = {
+    scaleEnable?: Boolean,
+    autoHide?: Boolean,
+    onShowDone?: void,
+    onDone?: void,
+    onShowStart?: void,
+    style?: StyleProp<ViewStyle>,
+    delay?: Number,
+    duration?: Number,
+    timeout?: Number,
+    autoShow?: Boolean,
+    pointerEvents?: 'box-none' | 'none' | 'box-only' | 'auto',
+    scaleType?: 'in' | 'out',
+};
+```
+
+**`ScaleButton`**
+```javascript
+<ScaleButton onPress={()=>{}}>
+    <Text>Hello</Text>
+</ScaleButton> 
+```
+- `Props`
+
+```typescript
+type TouchableWithoutFeedbackProps
+```
+
+- `Method`
+```javascript
+show(callback, isDelay)
+
+hide(callback)
+```
+
+--------
+
 #### Functions
 
 | Functions | Description | Type |
@@ -23,9 +71,15 @@ This library will help you improve your code, faster and easier.
 |**`memoDeepEqual`**|Using `memo` of React but deep compare preProps with nextProps to check component should be return `true` or `false`.|`Higher Order Function`|
 |**`memoWithRef`**|It's like `memoDeepEqual` but using `forwardRef` to get `ref` of component.|`Higher Order Function`|
 |**`useStateCallback`**|Using `useState` of React and handle to get callback after setState|`Hook`|
-|**`dectectEmail`**|Check string is email|`Boolean`|
-|**`dectectUserName`**|Check string is user name|`Boolean`|
-|**`dectectPhoneNumber`**|Check string is user phone number|`Boolean`|
+|**`detectEmail`**|Check string is email|`Boolean`|
+|**`detectUserName`**|Check string is user name|`Boolean`|
+|**`detectPhoneNumber`**|Check string is user phone number|`Boolean`|
+
+#### Hooks
+
+| Functions | Description | Type |
+|---|---|---|
+|**`useCountdown`**|Countdown value. Params: `startDate, endDate, autoStart,intervalTime`|`Hooks`|
 
 ### How to use
 
@@ -66,7 +120,7 @@ export default memoWithRef(App)
 
 **`useStateCallback`**
 ```javascript
-const [state, setState] = useState(initialState)
+const [state, setState] = useStateCallback(initialState)
 
 setState('123',(nextState)=>{
     console.log(nextState)

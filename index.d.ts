@@ -7,7 +7,10 @@ import {
     ComponentProps,
     MemoExoticComponent,
     Dispatch,
+    
 } from 'react';
+import { TouchableWithoutFeedbackProps } from 'react-native';
+import { ViewVisibleAnimatedProps } from './src/components/ViewVisibleAnimated';
 
 export function memoWithRef<T, P = {}>(
     component: ForwardRefRenderFunction<T, P>,
@@ -32,3 +35,17 @@ export const dectectEmail = (email: String) => Boolean;
 export const dectectUserName = (name: String) => Boolean;
 
 export const dectectPhoneNumber = (phoneNum: String) => Boolean;
+
+// Components
+export const ViewVisibleAnimated = (props: ViewVisibleAnimatedProps) => Boolean;
+export const ScaleButton = (props: TouchableWithoutFeedbackProps) => Boolean;
+
+// Hooks
+
+type IuseCountDown = {
+    startDate: Date,
+    endDate: Date,
+    autoStart?: Boolean,
+    intervalTime?: Number,
+}
+export const useCountdown = (params: IuseCountDown) => Array;
