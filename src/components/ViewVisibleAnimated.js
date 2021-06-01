@@ -15,6 +15,7 @@ export type ViewVisibleAnimatedProps = {
     autoShow?: Boolean,
     pointerEvents?: 'box-none' | 'none' | 'box-only' | 'auto',
     scaleType?: 'in' | 'out',
+    renderHiddenContent?: any,
 };
 
 const ViewVisibleAnimated = memoWithRef(
@@ -33,6 +34,8 @@ const ViewVisibleAnimated = memoWithRef(
             autoShow = true,
             pointerEvents = 'auto',
             scaleType = 'in',
+            renderHiddenContent = null,
+            disableHiddenContent = false,
         }: ViewVisibleAnimatedProps,
         ref,
     ) => {
@@ -56,14 +59,12 @@ const ViewVisibleAnimated = memoWithRef(
             };
         }, []);
 
-        const show = (callback, isDelay) => {
-            TIME_OUT = setTimeout(
-                () => {
-                    onShowStart?.();
-                    showAnimation(callback);
-                },
-                isDelay ? delay : 0,
-            );
+        const show = (callback, durationShow = delay) => {
+            TIME_OUT && clearTimeout(TIME_OUT);
+            TIME_OUT = setTimeout(() => {
+                onShowStart?.();
+                showAnimation(callback);
+            }, durationShow);
         };
 
         const showAnimation = (callback) => {
@@ -81,6 +82,7 @@ const ViewVisibleAnimated = memoWithRef(
                 callback?.();
                 onShowDone?.();
                 if (autoHide) {
+                    TIME_OUT && clearTimeout(TIME_OUT);
                     TIME_OUT = setTimeout(() => {
                         hide(onDone);
                     }, timeout);
@@ -88,15 +90,15 @@ const ViewVisibleAnimated = memoWithRef(
             });
         };
 
-        const hide = (callback) => {
+        const hide = (callback, durationHide = duration) => {
             Animated.timing(scaleAnimation, {
                 toValue: scaleType === 'in' ? 0 : 3,
-                duration,
+                duration: durationHide,
                 useNativeDriver: true,
             }).start();
             Animated.timing(visibleAnimation, {
                 toValue: 0,
-                duration,
+                duration: durationHide,
                 useNativeDriver: true,
             }).start(() => {
                 setVisible(false);
@@ -113,8 +115,8 @@ const ViewVisibleAnimated = memoWithRef(
                         transform: [{ scale: scaleEnable ? scaleAnimation : 1 }],
                     },
                 ]}
-                pointerEvents={pointerEvents}>
-                {visible ? children : null}
+                pointerEvents={visible ? pointerEvents : 'none'}>
+                {disableHiddenContent ? children : visible ? children : renderHiddenContent}
             </Animated.View>
         );
     },

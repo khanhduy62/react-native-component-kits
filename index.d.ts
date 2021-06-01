@@ -1,4 +1,4 @@
-import {
+import React, {
     ForwardRefRenderFunction,
     ForwardRefExoticComponent,
     PropsWithoutRef,
@@ -7,9 +7,8 @@ import {
     ComponentProps,
     MemoExoticComponent,
     Dispatch,
-    
 } from 'react';
-import { TouchableWithoutFeedbackProps } from 'react-native';
+import { TouchableWithoutFeedbackProps, } from 'react-native';
 import { ViewVisibleAnimatedProps } from './src/components/ViewVisibleAnimated';
 
 export function memoWithRef<T, P = {}>(
@@ -30,15 +29,23 @@ type SetStateAction<S, A> = (prevState: S, callback: A) => S;
 
 export function useStateCallback<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
 
-export const dectectEmail = (email: String) => Boolean;
+export const detectEmail = (email: String) => Boolean;
 
-export const dectectUserName = (name: String) => Boolean;
+export const detectUserName = (name: String) => Boolean;
 
-export const dectectPhoneNumber = (phoneNum: String) => Boolean;
+export const detectPhoneNumber = (phoneNum: String) => Boolean;
+
+export function withAnimated(WrappedComponent: React.ComponentType<any>): ComponentType
 
 // Components
 export const ViewVisibleAnimated = (props: ViewVisibleAnimatedProps) => Boolean;
-export const ScaleButton = (props: TouchableWithoutFeedbackProps) => Boolean;
+
+interface ScaleButtonProps extends TouchableWithoutFeedbackProps {
+    scaleSize?: Number,
+    disableHiddenContent?: Boolean
+}
+
+export const ScaleButton = (props: ScaleButtonProps) => Boolean;
 
 // Hooks
 
@@ -49,3 +56,11 @@ type IuseCountDown = {
     intervalTime?: Number,
 }
 export const useCountdown = (params: IuseCountDown) => Array;
+
+export const useInterval = (callback: TimerHandler, delay?: Delay, autoStart?: Boolean) => Array;
+
+type IFetchData = { api: Promise, loadingDefault?: Boolean, pathData?: String }
+
+export const useFetchData = (params: IFetchData) => Array;
+
+export function useStateSafe<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];

@@ -5,13 +5,19 @@ const TouchableWithoutFeedbackAnimation = Animated.createAnimatedComponent(
     TouchableWithoutFeedback,
 );
 
-const ScaleButton = ({ children, style, ...rest }: TouchableWithoutFeedbackProps) => {
+const ScaleButton = ({
+    children,
+    style,
+    scaleSize = 0.8,
+    onPress = () => {},
+    ...rest
+}: TouchableWithoutFeedbackProps) => {
     const scale = useRef(new Animated.Value(1)).current;
 
     const onPressIn = () => {
         scale.stopAnimation(() => {
             Animated.spring(scale, {
-                toValue: 0.8,
+                toValue: scaleSize,
                 useNativeDriver: true,
                 friction: 1000,
             }).start();
@@ -26,12 +32,18 @@ const ScaleButton = ({ children, style, ...rest }: TouchableWithoutFeedbackProps
             }).start();
         });
     };
+
+    const onPressButton = () => {
+        requestAnimationFrame(onPress);
+    };
+
     return (
         <TouchableWithoutFeedbackAnimation
             style={{ transform: [{ scale }] }}
             onPressIn={onPressIn}
             onPressOut={onPressOut}
-            {...rest}>
+            {...rest}
+            onPress={onPressButton}>
             {children}
         </TouchableWithoutFeedbackAnimation>
     );

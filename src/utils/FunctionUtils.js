@@ -1,5 +1,6 @@
 import deepEqual from 'deep-equal';
-import { forwardRef, memo, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, memo } from 'react';
+import { Animated } from 'react-native';
 
 export const memoDeepEqual = (component) => {
     return memo(component, (prevProps, nextProps) => deepEqual(prevProps, nextProps));
@@ -28,22 +29,15 @@ export const detectPhoneNumber = (phoneNum) => {
     }
 };
 
-export const useStateCallback = (initialState) => {
-    const [state, setState] = useState(initialState);
-    const cbRef = useRef(null);
+export function withAnimated(WrappedComponent: React.ComponentType<any>): ComponentType {
+    const displayName = WrappedComponent.displayName || WrappedComponent.name || 'Component';
+    class WithAnimated extends React.Component {
+        static displayName = `WithAnimated(${displayName})`;
 
-    const setStateCallback = (val, cb) => {
-        cbRef.current = cb; // store passed callback to ref
-        setState(val);
-    };
-
-    useEffect(() => {
-        // cb.current is `null` on initial render, so we only execute cb on state *updates*
-        if (cbRef.current) {
-            cbRef.current(state);
-            cbRef.current = null; // reset callback after execution
+        render(): React.ReactNode {
+            return <WrappedComponent {...this.props} />;
         }
-    }, [state]);
+    }
 
-    return [state, setStateCallback];
-};
+    return Animated.createAnimatedComponent(WithAnimated);
+}

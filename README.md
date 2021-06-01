@@ -40,8 +40,17 @@ type ViewVisibleAnimatedProps = {
     autoShow?: Boolean,
     pointerEvents?: 'box-none' | 'none' | 'box-only' | 'auto',
     scaleType?: 'in' | 'out',
+    renderHiddenContent?: any // Content show when component hide, default null
 };
 ```
+
+- `Method`
+```javascript
+show(callback, isDelay)
+
+hide(callback)
+```
+------
 
 **`ScaleButton`**
 ```javascript
@@ -55,12 +64,6 @@ type ViewVisibleAnimatedProps = {
 type TouchableWithoutFeedbackProps
 ```
 
-- `Method`
-```javascript
-show(callback, isDelay)
-
-hide(callback)
-```
 
 --------
 
@@ -71,15 +74,19 @@ hide(callback)
 |**`memoDeepEqual`**|Using `memo` of React but deep compare preProps with nextProps to check component should be return `true` or `false`.|`Higher Order Function`|
 |**`memoWithRef`**|It's like `memoDeepEqual` but using `forwardRef` to get `ref` of component.|`Higher Order Function`|
 |**`useStateCallback`**|Using `useState` of React and handle to get callback after setState|`Hook`|
+|**`useStateSafe`**|Using `useState` of React and handle don't update state when component unmounted|`Hook`|
 |**`detectEmail`**|Check string is email|`Boolean`|
 |**`detectUserName`**|Check string is user name|`Boolean`|
 |**`detectPhoneNumber`**|Check string is user phone number|`Boolean`|
+|**`withAnimated`**|Convert class component to use Animated|`Function`|
 
 #### Hooks
 
 | Functions | Description | Type |
 |---|---|---|
 |**`useCountdown`**|Countdown value. Params: `startDate, endDate, autoStart,intervalTime`|`Hooks`|
+|**`useInterval`**|Countdown value. Params: `callback, delay, autoStart`|`Hooks`|
+|**`useFetchData`**|Countdown value. Params: `api,loadingDefault, pathData`|`Hooks`|
 
 ### How to use
 
